@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:layout_width="match_parent"
+			  android:layout_height="wrap_content"
+			  android:background="@color/white"
+			  android:orientation="vertical">
+
+	<android.support.v7.widget.AppCompatEditText
+		android:id="@+id/title"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:hint="@string/shopping_list_add_item_hint"
+		android:singleLine="true"
+		android:maxLines="1"
+		android:maxLength="50"
+		android:imeOptions="actionDone"
+		android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+		android:padding="@dimen/standard_size" />
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/standard_size"
+		android:orientation="horizontal">
+
+		<android.support.v7.widget.AppCompatButton
+			android:id="@+id/cancel"
+			style="@style/DialogButtonStyle"
+			android:text="@string/common_cancel" />
+
+		<android.support.v7.widget.AppCompatButton
+			android:id="@+id/add"
+			style="@style/DialogButtonStyle"
+			android:text="@string/common_add" />
+
+	</LinearLayout>
+
+</LinearLayout>

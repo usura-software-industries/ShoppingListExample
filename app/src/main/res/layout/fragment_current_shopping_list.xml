@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+	android:id="@+id/currentLayout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/gray">
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/shoppingList"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
+
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/addShoppingList"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="@dimen/standard_size"
+		android:layout_marginEnd="@dimen/standard_size"
+		android:tint="@color/white"
+		app:layout_anchor="@id/shoppingList"
+		app:layout_anchorGravity="bottom|right|end"
+		app:srcCompat="@drawable/ic_add_black_24dp" />
+
+</android.support.design.widget.CoordinatorLayout>

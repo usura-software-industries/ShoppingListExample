@@ -1,0 +1,14 @@
+<resources>
+	<string name="app_name">ShoppingListExample</string>
+
+	<string name="common_add">Add</string>
+	<string name="common_cancel">Cancel</string>
+
+	<string name="navigation_shopping_list">Shopping list</string>
+	<string name="navigation_archive">Shopping archive</string>
+
+	<string name="shopping_list_add_new_item">Add new shopping item</string>
+	<string name="shopping_list_default_title">Shopping list</string>
+	<string name="shopping_list_add_item_hint">What to buy…</string>
+
+</resources>
