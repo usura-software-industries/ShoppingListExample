@@ -37,9 +37,13 @@ dependencies {
     androidTestImplementation "com.nhaarman:mockito-kotlin-kt1.1:$rootProject.ext.mockito"
     androidTestImplementation "com.android.support.test:runner:$rootProject.ext.testRunner"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$rootProject.ext.espresso"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$rootProject.ext.espresso"
+    androidTestImplementation("com.android.support.test.espresso:espresso-intents:$rootProject.ext.espresso")
+    androidTestImplementation "com.google.dagger:dagger:$rootProject.ext.dagger"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
 
     //dagger
-    compile "com.google.dagger:dagger:$rootProject.ext.dagger"
+    implementation "com.google.dagger:dagger:$rootProject.ext.dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
     kapt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger"
 
