@@ -1,7 +1,6 @@
 package com.urmwsk.feature.shoppinglist.current.views
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -15,9 +14,8 @@ class AddShoppingListDialog : BaseDialog() {
     private var callback: AddShoppingListDialogCallback? = null
 
     companion object {
-        fun show(manager: FragmentManager, target: Fragment) {
+        fun show(manager: FragmentManager) {
             val dialog = AddShoppingListDialog()
-            dialog.setTargetFragment(target, 100)
             dialog.show(manager, "addShoppingList")
         }
     }
@@ -25,7 +23,7 @@ class AddShoppingListDialog : BaseDialog() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //intentional NPE possibility to tell when callback not implemented
-        callback = targetFragment as AddShoppingListDialogCallback
+        callback = parentFragment as AddShoppingListDialogCallback
 
         cancel.setOnClickListener({
             KeyboardUtils().hideKeyboard(title)
@@ -49,7 +47,6 @@ class AddShoppingListDialog : BaseDialog() {
 
     override fun onDestroyView() {
         callback = null
-        setTargetFragment(null, 0)
         super.onDestroyView()
     }
 

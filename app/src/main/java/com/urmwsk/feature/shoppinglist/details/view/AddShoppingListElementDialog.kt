@@ -1,7 +1,6 @@
 package com.urmwsk.feature.shoppinglist.details.view
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.text.Editable
 import android.text.TextWatcher
@@ -28,16 +27,15 @@ class AddShoppingListElementDialog : BaseDialog() {
     }
 
     companion object {
-        fun show(manager: FragmentManager, target: Fragment) {
+        fun show(manager: FragmentManager) {
             val dialog = AddShoppingListElementDialog()
-            dialog.setTargetFragment(target, 100)
             dialog.show(manager, "addShoppingList")
         }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        callback = targetFragment as AddShoppingListElementDialogCallback
+        callback = parentFragment as AddShoppingListElementDialogCallback
         add.isEnabled = false
         title.addTextChangedListener(textWatcher)
 

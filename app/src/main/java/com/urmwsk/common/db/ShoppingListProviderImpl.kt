@@ -32,23 +32,23 @@ class ShoppingListProviderImpl(private val shoppingListDao: ShoppingListDao) : S
 
     override fun getListById(id: String): Single<ShoppingListModel> {
         return shoppingListDao.getListById(id)
+                .map { ShoppingListModelPopulator().populate(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map { ShoppingListModelPopulator().populate(it) }
     }
 
     override fun getActiveLists(): Single<List<ShoppingListModel>> {
         return shoppingListDao.getActiveLists()
+                .map({ it.map { ShoppingListModelPopulator().populate(it) } })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map({ it.map { ShoppingListModelPopulator().populate(it) } })
     }
 
     override fun getArchivedLists(): Single<List<ShoppingListModel>> {
         return shoppingListDao.getArchivedLists()
+                .map({ it.map { ShoppingListModelPopulator().populate(it) } })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map({ it.map { ShoppingListModelPopulator().populate(it) } })
     }
 
     override fun insertShoppingElement(element: ShoppingListElementModel) {
@@ -61,9 +61,9 @@ class ShoppingListProviderImpl(private val shoppingListDao: ShoppingListDao) : S
 
     override fun getShoppingElement(shoppingListId: String): Single<List<ShoppingListElementModel>> {
         return shoppingListDao.getListItems(shoppingListId)
+                .map({ it.map { ShoppingElementModelPopulator().populate(it) } })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map({ it.map { ShoppingElementModelPopulator().populate(it) } })
     }
 
 }

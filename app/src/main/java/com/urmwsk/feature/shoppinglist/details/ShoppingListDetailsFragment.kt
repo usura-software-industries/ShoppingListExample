@@ -79,7 +79,7 @@ class ShoppingListDetailsFragment : MvpFragment<ShoppingListDetailsContract.View
     }
 
     override fun showAddElementDialog() {
-        activity?.let{AddShoppingListElementDialog.show(it.supportFragmentManager, this)}
+        AddShoppingListElementDialog.show(childFragmentManager)
     }
 
     override fun confirmAddShoppingElement(title: String) {

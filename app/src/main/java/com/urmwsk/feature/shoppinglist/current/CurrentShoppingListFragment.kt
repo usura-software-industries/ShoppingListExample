@@ -51,7 +51,7 @@ class CurrentShoppingListFragment : MvpFragment<CurrentShoppingListContract.View
     }
 
     override fun showAddListDialog() {
-        activity?.let { AddShoppingListDialog.show(it.supportFragmentManager, this) }
+        AddShoppingListDialog.show(childFragmentManager)
     }
 
     override fun confirmAddShoppingList(title: String) {
