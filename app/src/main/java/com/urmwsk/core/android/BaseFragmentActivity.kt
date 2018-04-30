@@ -11,19 +11,19 @@ abstract class BaseFragmentActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        if (savedInstanceState != null) {
-//            supportFragmentManager.getFragment(savedInstanceState, fragmentKey)
-//        } else {
+        if (savedInstanceState != null) {
+            supportFragmentManager.getFragment(savedInstanceState, fragmentKey)
+        } else {
             if (supportFragmentManager.findFragmentById(R.id.container) == null) {
                 supportFragmentManager.beginTransaction().replace(R.id.container, instantiateFragment()).commit()
             }
-//        }
+        }
     }
 
-//    override fun onSaveInstanceState(outState: Bundle) {
-//        super.onSaveInstanceState(outState)
-//        supportFragmentManager.putFragment(outState, fragmentKey, supportFragmentManager.findFragmentById(R.id.container))
-//    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        supportFragmentManager.putFragment(outState, fragmentKey, supportFragmentManager.findFragmentById(R.id.container))
+    }
 
     abstract fun instantiateFragment(): Fragment
 }

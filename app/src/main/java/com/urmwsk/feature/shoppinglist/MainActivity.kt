@@ -1,49 +1,22 @@
 package com.urmwsk.feature.shoppinglist
 
-import android.os.Bundle
-import android.os.PersistableBundle
-import android.support.v4.app.Fragment
 import com.urmwsk.core.R
-import com.urmwsk.core.android.BaseActivity
-import com.urmwsk.feature.shoppinglist.archived.ArchivedShoppingListFragment
-import com.urmwsk.feature.shoppinglist.current.CurrentShoppingListFragment
-import kotlinx.android.synthetic.main.activity_main.*
+import com.urmwsk.core.android.BaseFragmentActivity
+import com.urmwsk.feature.shoppinglist.current.ShoppingListFragment
 
+/*
+    User stories
 
-//todo README using bottom navigation because I believe it is most fitting, despite not having the recommended 3 minimum items
-class MainActivity : BaseActivity() {
+    Adding shopping list: As a user I want to easily add a new shopping list
+    Removing shopping list: As a user I want to be able to delete any shopping list and also be prompted when all shopping list items are purchased
+    Displaying shopping lists: As a user I would like to see my current shopping lists
+    Removing shopping item: As a user I want to be able add shopping list item easily
+    Removing shopping item: As a user I want to be able remove a shopping list item easily
+    Marking shopping item: As a user I want to be able mark list item as purchased or to buy
+    As a user I would like to see my selected shopping list items
 
-    private val currentItemIdKey = "currentItemIdKey"
-    private var currentItem: Int = -1
+ */
+class MainActivity : BaseFragmentActivity() {
+    override fun instantiateFragment() = ShoppingListFragment.newInstance()
     override fun layoutId() = R.layout.activity_main
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        bottomNavigation.setOnNavigationItemSelectedListener { item ->
-            var selectedFragment: Fragment? = null
-            when (item.itemId) {
-                R.id.navigation_shopping_list -> if (currentItem != item.itemId) selectedFragment = CurrentShoppingListFragment.newInstance()
-                R.id.navigation_shopping_archive -> if (currentItem != item.itemId) selectedFragment = ArchivedShoppingListFragment.newInstance()
-            }
-            currentItem = item.itemId
-
-            if (selectedFragment != null) supportFragmentManager.beginTransaction().replace(R.id.container, selectedFragment).commit()
-            true
-        }
-
-        if (savedInstanceState == null) {
-            bottomNavigation.selectedItemId = R.id.navigation_shopping_list
-        } else {
-            currentItem = savedInstanceState.getInt(currentItemIdKey)
-        }
-
-        bottomNavigation.setOnNavigationItemReselectedListener { /*do nth, needed for reselect to not be called */ }
-
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        outState?.let { it.putInt(currentItemIdKey, currentItem) }
-    }
 }

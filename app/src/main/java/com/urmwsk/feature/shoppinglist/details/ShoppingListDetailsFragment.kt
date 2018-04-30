@@ -21,13 +21,11 @@ class ShoppingListDetailsFragment : MvpFragment<ShoppingListDetailsContract.View
     companion object {
 
         private const val ID_KEY = "idKey"
-        private const val CAN_EDIT_KEY = "editKey"
 
-        fun newInstance(id: String, canEdit: Boolean): ShoppingListDetailsFragment {
+        fun newInstance(id: String): ShoppingListDetailsFragment {
             val fragment = ShoppingListDetailsFragment()
             val args = Bundle()
             args.putString(ID_KEY, id)
-            args.putBoolean(CAN_EDIT_KEY, canEdit)
             fragment.arguments = args
             return fragment
         }
@@ -41,7 +39,7 @@ class ShoppingListDetailsFragment : MvpFragment<ShoppingListDetailsContract.View
         addShoppingListElement.setOnClickListener({ showAddElementDialog() })
 
         if (arguments != null) {
-            presenter.setData(arguments!!.getString(ID_KEY), arguments!!.getBoolean(CAN_EDIT_KEY))
+            presenter.setData(arguments!!.getString(ID_KEY))
         }
     }
 
@@ -55,11 +53,6 @@ class ShoppingListDetailsFragment : MvpFragment<ShoppingListDetailsContract.View
     private fun setupList() {
         shoppingList.adapter = adapter
         shoppingList.layoutManager = LinearLayoutManager(activity)
-        adapter.withSelectable(true)
-        adapter.withOnClickListener({ _, _, _, position ->
-            presenter.itemSelected(position)
-            true
-        })
         addShoppingListElement.setupHideWithRecyclerview(shoppingList)
     }
 
@@ -84,22 +77,6 @@ class ShoppingListDetailsFragment : MvpFragment<ShoppingListDetailsContract.View
 
     override fun confirmAddShoppingElement(title: String) {
         presenter.addShoppingElement(title)
-    }
-
-    override fun setAddVisible(visible: Boolean) {
-        addShoppingListElement.visibility = if (visible) View.VISIBLE else View.GONE
-    }
-
-    override fun setItemsClickable(clickable: Boolean) {
-        if (clickable) {
-            adapter.withOnClickListener({ _, _, _, position ->
-                presenter.itemSelected(position)
-                true
-            })
-        } else {
-            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-            adapter.withOnClickListener(null)
-        }
     }
 
     override fun closeScreen() {

@@ -5,8 +5,8 @@ import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import com.urmwsk.common.db.ShoppingListProvider
 import com.urmwsk.common.model.ShoppingListModel
-import com.urmwsk.feature.shoppinglist.current.CurrentShoppingListContract
-import com.urmwsk.feature.shoppinglist.current.CurrentShoppingListPresenter
+import com.urmwsk.feature.shoppinglist.current.ShoppingListContract
+import com.urmwsk.feature.shoppinglist.current.ShoppingListPresenter
 import com.urmwsk.feature.shoppinglist.current.views.ShoppingListItem
 import io.reactivex.Single
 import junit.framework.Assert.assertEquals
@@ -19,10 +19,10 @@ import org.mockito.MockitoAnnotations
 class CurrentListsTest {
 
     @Mock
-    lateinit var view: CurrentShoppingListContract.View
+    lateinit var view: ShoppingListContract.View
     @Mock
     lateinit var provider: ShoppingListProvider
-    lateinit var presenter: CurrentShoppingListPresenter
+    lateinit var presenter: ShoppingListPresenter
 
     private val testData: List<ShoppingListModel> = arrayListOf(ShoppingListModel("testId", false, "testTitle", 10))
 
@@ -33,8 +33,8 @@ class CurrentListsTest {
 
     @Test
     fun testDataRead() {
-        presenter = CurrentShoppingListPresenter(provider)
-        whenever(provider.getActiveLists()).thenReturn(Single.just(testData))
+        presenter = ShoppingListPresenter(provider)
+        whenever(provider.getShoppingLists()).thenReturn(Single.just(testData))
         presenter.bindView(view)
         val expectedResult = arrayListOf(ShoppingListItem(testData[0], presenter.archiveItemClick))
         verify(view).setList(expectedResult)
@@ -42,11 +42,11 @@ class CurrentListsTest {
 
     @Test
     fun testAddShoppingList() {
-        presenter = CurrentShoppingListPresenter(provider)
+        presenter = ShoppingListPresenter(provider)
         val single: Single<List<ShoppingListModel>> = Single.create { emitter ->
             emitter.onError(Exception())
         }
-        whenever(provider.getActiveLists()).thenReturn(single)
+        whenever(provider.getShoppingLists()).thenReturn(single)
         presenter.bindView(view)
 
         val testTitle = "testTitle"
@@ -61,8 +61,8 @@ class CurrentListsTest {
 
     @Test
     fun testListSelected() {
-        presenter = CurrentShoppingListPresenter(provider)
-        whenever(provider.getActiveLists()).thenReturn(Single.just(testData))
+        presenter = ShoppingListPresenter(provider)
+        whenever(provider.getShoppingLists()).thenReturn(Single.just(testData))
         presenter.bindView(view)
 
         presenter.itemSelected(0)
@@ -71,8 +71,8 @@ class CurrentListsTest {
 
     @Test
     fun testArchiveList() {
-        presenter = CurrentShoppingListPresenter(provider)
-        whenever(provider.getActiveLists()).thenReturn(Single.just(testData))
+        presenter = ShoppingListPresenter(provider)
+        whenever(provider.getShoppingLists()).thenReturn(Single.just(testData))
         presenter.bindView(view)
 
         presenter.archiveList(presenter.items[0])

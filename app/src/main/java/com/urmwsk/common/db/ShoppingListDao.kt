@@ -21,15 +21,8 @@ interface ShoppingListDao {
     fun getListById(id: String): Single<DBShoppingList>
 
     @Query("SELECT * FROM DBShoppingList " +
-            "WHERE isArchived = 0 " +
             "ORDER BY addedDate DESC")
-    fun getActiveLists(): Single<List<DBShoppingList>>
-
-    @Query("SELECT * FROM DBShoppingList " +
-            "WHERE isArchived = 1 " +
-            "ORDER BY addedDate DESC")
-    fun getArchivedLists(): Single<List<DBShoppingList>>
-
+    fun getLists(): Single<List<DBShoppingList>>
     @Insert(onConflict = REPLACE)
     fun insertItem(list: DBShoppingItem)
 

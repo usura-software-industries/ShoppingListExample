@@ -32,7 +32,7 @@ class StubShoppingListProvider : ShoppingListProvider {
         }
     }
 
-    override fun getActiveLists(): Single<List<ShoppingListModel>> {
+    override fun getShoppingLists(): Single<List<ShoppingListModel>> {
         return Single.just(arrayListOf(testItem1))
     }
 

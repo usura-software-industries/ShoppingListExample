@@ -13,17 +13,13 @@ object ShoppingListDetailsContract {
 
         fun showAddElementDialog()
 
-        fun setAddVisible(visible: Boolean)
-
-        fun setItemsClickable(clickable: Boolean)
-
         fun closeScreen()
     }
 
     interface Presenter : MvpPresenter<View> {
-        fun setData(shoppingListId: String, canEdit: Boolean)
+        fun setData(shoppingListId: String)
+
         fun addShoppingElement(title: String)
-        fun itemSelected(position: Int)
     }
 
 }

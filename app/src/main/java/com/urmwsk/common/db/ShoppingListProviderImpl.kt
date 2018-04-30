@@ -24,31 +24,18 @@ class ShoppingListProviderImpl(private val shoppingListDao: ShoppingListDao) : S
         shoppingListDao.deleteList(ShoppingListDBPopulator().populate(list))
     }
 
-    override fun archiveList(list: ShoppingListModel) {
-        list.isArchived = true
-        updateShoppingList(list)
-        shoppingListDao.archiveElements(list.id)
-    }
-
     override fun getListById(id: String): Single<ShoppingListModel> {
         return shoppingListDao.getListById(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .map { ShoppingListModelPopulator().populate(it) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun getActiveLists(): Single<List<ShoppingListModel>> {
-        return shoppingListDao.getActiveLists()
-                .map({ it.map { ShoppingListModelPopulator().populate(it) } })
+    override fun getShoppingLists(): Single<List<ShoppingListModel>> {
+        return shoppingListDao.getLists()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    override fun getArchivedLists(): Single<List<ShoppingListModel>> {
-        return shoppingListDao.getArchivedLists()
                 .map({ it.map { ShoppingListModelPopulator().populate(it) } })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun insertShoppingElement(element: ShoppingListElementModel) {
@@ -61,9 +48,9 @@ class ShoppingListProviderImpl(private val shoppingListDao: ShoppingListDao) : S
 
     override fun getShoppingElement(shoppingListId: String): Single<List<ShoppingListElementModel>> {
         return shoppingListDao.getListItems(shoppingListId)
-                .map({ it.map { ShoppingElementModelPopulator().populate(it) } })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .map({ it.map { ShoppingElementModelPopulator().populate(it) } })
     }
 
 }

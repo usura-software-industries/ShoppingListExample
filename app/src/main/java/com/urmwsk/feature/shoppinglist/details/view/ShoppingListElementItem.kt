@@ -12,7 +12,10 @@ import com.urmwsk.core.R
 import kotlinx.android.synthetic.main.item_shopping_list_element.view.*
 
 @Suppress("DEPRECATION")
-class ShoppingListElementItem(val element: ShoppingListElementModel, val shouldShowButton: Boolean, private val callback: (ShoppingListElementItem) -> Unit) : AbstractItem<ShoppingListElementItem, ShoppingListElementItem.VH>() {
+class ShoppingListElementItem(val element: ShoppingListElementModel,
+                              private val clickCallback: (ShoppingListElementItem) -> Unit,
+                              private val deleteCallback: (ShoppingListElementItem) -> Unit)
+    : AbstractItem<ShoppingListElementItem, ShoppingListElementItem.VH>() {
 
     override fun getViewHolder(v: View) = VH(v)
     override fun getType() = R.id.shoppingListElementLayout
@@ -23,15 +26,9 @@ class ShoppingListElementItem(val element: ShoppingListElementModel, val shouldS
         private val layout = itemView.shoppingListElementLayout
         private val title = itemView.elementTitle
         private val delete = itemView.deleteShoppingElement
-        private val divider = itemView.shoppingListInnerDivider
 
         override fun bindView(item: ShoppingListElementItem, payloads: List<Any>) {
-            delete.setOnClickListener({ item.callback.invoke(item) })
             title.setText(item.element.title, TextView.BufferType.SPANNABLE)
-
-            val deleteBtnVisibility = if (item.shouldShowButton) View.VISIBLE else View.GONE
-            divider.visibility = deleteBtnVisibility
-            delete.visibility = deleteBtnVisibility
 
             if (!item.element.isPurchased) {
                 layout.setBackgroundColor(layout.context.resources.getColor(R.color.white))
@@ -40,10 +37,16 @@ class ShoppingListElementItem(val element: ShoppingListElementModel, val shouldS
                 val spannable = title.text as Spannable
                 spannable.setSpan(StrikethroughSpan(), 0, title.text.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
             }
+
+            delete.setOnClickListener({ item.deleteCallback.invoke(item) })
+            layout.setOnClickListener({
+                item.clickCallback.invoke(item)
+            })
         }
 
         override fun unbindView(item: ShoppingListElementItem) {
             delete.setOnClickListener(null)
+            layout.setOnClickListener(null)
         }
     }
 }

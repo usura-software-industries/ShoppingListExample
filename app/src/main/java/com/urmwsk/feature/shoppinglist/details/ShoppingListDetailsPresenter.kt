@@ -11,17 +11,18 @@ class ShoppingListDetailsPresenter(private val provider: ShoppingListProvider) :
 
     private var shoppingList: ShoppingListModel? = null
     private var shoppingListId = ""
-    private var canEdit = true
     var items = ArrayList<ShoppingListElementItem>()
+    var elementClick: (item: ShoppingListElementItem) -> Unit = {
+        elementSelected(it.element)
+    }
     var deleteElementClick: (item: ShoppingListElementItem) -> Unit = { deleteElement(it) }
 
-    override fun setData(shoppingListId: String, canEdit: Boolean) {
+    override fun setData(shoppingListId: String) {
         this.shoppingListId = shoppingListId
-        this.canEdit = canEdit
 
         disposable.add(provider.getShoppingElement(shoppingListId).subscribe({
             it.map {
-                items.add(ShoppingListElementItem(it, canEdit, deleteElementClick))
+                items.add(ShoppingListElementItem(it, elementClick, deleteElementClick))
             }
             view?.setList(items)
         }, { Timber.d(it) }))
@@ -30,21 +31,17 @@ class ShoppingListDetailsPresenter(private val provider: ShoppingListProvider) :
             shoppingList = it
             view?.setTitle(it.title)
         }, { Timber.d(it) }))
-
-        view?.setAddVisible(canEdit)
-        view?.setItemsClickable(canEdit)
     }
 
     override fun addShoppingElement(title: String) {
         val newShoppingElement = ShoppingListElementModel(shoppingListId = shoppingListId, title = title)
-        items.add(0, ShoppingListElementItem(newShoppingElement, canEdit, deleteElementClick))
+        items.add(0, ShoppingListElementItem(newShoppingElement, elementClick, deleteElementClick))
         view?.setList(items)
 
         provider.insertShoppingElement(newShoppingElement)
     }
 
-    override fun itemSelected(position: Int) {
-        val element = items[position].element
+    private fun elementSelected(element: ShoppingListElementModel) {
         element.isPurchased = !element.isPurchased
         val sortedList = items.sortedWith(compareBy<ShoppingListElementItem> { it.element.isPurchased }.thenByDescending { it.element.addedDate })
         items = ArrayList(sortedList)

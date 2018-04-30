@@ -13,18 +13,16 @@ class ShoppingListDetailsActivity : BaseFragmentActivity() {
     companion object {
 
         private const val ID_KEY = "idKey"
-        private const val CAN_EDIT_KEY = "editKey"
 
         fun startActivity(context: Context, id: String, canEdit: Boolean) {
             val intent = Intent(context, ShoppingListDetailsActivity::class.java)
             intent.putExtra(ID_KEY, id)
-            intent.putExtra(CAN_EDIT_KEY, canEdit)
             context.startActivity(intent)
         }
     }
 
     override fun instantiateFragment(): Fragment {
-        return ShoppingListDetailsFragment.newInstance(intent.getStringExtra(ID_KEY), intent.getBooleanExtra(CAN_EDIT_KEY, true))
+        return ShoppingListDetailsFragment.newInstance(intent.getStringExtra(ID_KEY))
     }
 
     override fun onSupportNavigateUp(): Boolean {

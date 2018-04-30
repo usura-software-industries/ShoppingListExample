@@ -4,4 +4,6 @@
 	<dimen name="standard_size">16dp</dimen>
 	<dimen name="half_size">8dp</dimen>
 	<dimen name="quarter_size">4dp</dimen>
+
+	<dimen name="item_delete_width">100dp</dimen>
 </resources>

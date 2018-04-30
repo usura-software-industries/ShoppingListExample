@@ -14,11 +14,7 @@ interface ShoppingListProvider {
 
     fun getListById(id: String): Single<ShoppingListModel>
 
-    fun getActiveLists(): Single<List<ShoppingListModel>>
-
-    fun getArchivedLists(): Single<List<ShoppingListModel>>
-
-    fun archiveList(list: ShoppingListModel)
+    fun getShoppingLists(): Single<List<ShoppingListModel>>
 
     fun insertShoppingElement(element: ShoppingListElementModel)
 

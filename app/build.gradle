@@ -29,7 +29,7 @@ kapt {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //test
     testImplementation 'junit:junit:4.12'
@@ -67,5 +67,6 @@ dependencies {
     implementation "com.mikepenz:fastadapter:$rootProject.ext.fastAdapter"
     implementation "com.mikepenz:fastadapter-commons:$rootProject.ext.fastAdapter"
     implementation "com.mikepenz:fastadapter-extensions-expandable:$rootProject.ext.fastAdapter"
+    implementation "com.chauthai.swipereveallayout:swipe-reveal-layout:$rootProject.ext.revealLayout"
 
 }

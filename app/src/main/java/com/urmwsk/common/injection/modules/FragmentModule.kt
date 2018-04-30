@@ -2,10 +2,8 @@ package com.urmwsk.common.injection.modules
 
 import com.urmwsk.common.db.ShoppingListProvider
 import com.urmwsk.common.injection.annotation.PerFragment
-import com.urmwsk.feature.shoppinglist.archived.ArchivedShoppingListContract
-import com.urmwsk.feature.shoppinglist.archived.ArchivedShoppingListPresenter
-import com.urmwsk.feature.shoppinglist.current.CurrentShoppingListContract
-import com.urmwsk.feature.shoppinglist.current.CurrentShoppingListPresenter
+import com.urmwsk.feature.shoppinglist.current.ShoppingListContract
+import com.urmwsk.feature.shoppinglist.current.ShoppingListPresenter
 import com.urmwsk.feature.shoppinglist.details.ShoppingListDetailsContract
 import com.urmwsk.feature.shoppinglist.details.ShoppingListDetailsPresenter
 import dagger.Module
@@ -16,14 +14,8 @@ class FragmentModule {
 
     @Provides
     @PerFragment
-    fun currentShoppingListPresenter(provider: ShoppingListProvider): CurrentShoppingListContract.Presenter {
-        return CurrentShoppingListPresenter(provider)
-    }
-
-    @Provides
-    @PerFragment
-    fun archivedListPresenter(provider: ShoppingListProvider): ArchivedShoppingListContract.Presenter {
-        return ArchivedShoppingListPresenter(provider)
+    fun currentShoppingListPresenter(provider: ShoppingListProvider): ShoppingListContract.Presenter {
+        return ShoppingListPresenter(provider)
     }
 
     @Provides

@@ -13,12 +13,12 @@ import com.urmwsk.feature.shoppinglist.current.views.AddShoppingListDialogCallba
 import com.urmwsk.feature.shoppinglist.details.ShoppingListDetailsActivity
 import kotlinx.android.synthetic.main.fragment_current_shopping_list.*
 
-class CurrentShoppingListFragment : MvpFragment<CurrentShoppingListContract.View, CurrentShoppingListContract.Presenter>(), CurrentShoppingListContract.View, AddShoppingListDialogCallback {
+class ShoppingListFragment : MvpFragment<ShoppingListContract.View, ShoppingListContract.Presenter>(), ShoppingListContract.View, AddShoppingListDialogCallback {
 
     private val adapter = FastItemAdapter<IItem<*, *>>()
 
     companion object {
-        fun newInstance(): CurrentShoppingListFragment = CurrentShoppingListFragment()
+        fun newInstance(): ShoppingListFragment = ShoppingListFragment()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,10 +31,6 @@ class CurrentShoppingListFragment : MvpFragment<CurrentShoppingListContract.View
         shoppingList.adapter = adapter
         shoppingList.layoutManager = LinearLayoutManager(activity!!)
         adapter.withSelectable(true)
-        adapter.withOnClickListener({ _, _, _, position ->
-            presenter.itemSelected(position)
-            true
-        })
         addShoppingList.setupHideWithRecyclerview(shoppingList)
     }
 
