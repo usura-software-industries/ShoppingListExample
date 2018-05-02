@@ -5,6 +5,7 @@ import android.text.Spanned
 import android.text.style.StrikethroughSpan
 import android.view.View
 import android.widget.TextView
+import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.items.AbstractItem
 import com.urmwsk.common.model.ShoppingListElementModel
@@ -14,7 +15,8 @@ import kotlinx.android.synthetic.main.item_shopping_list_element.view.*
 @Suppress("DEPRECATION")
 class ShoppingListElementItem(val element: ShoppingListElementModel,
                               private val clickCallback: (ShoppingListElementItem) -> Unit,
-                              private val deleteCallback: (ShoppingListElementItem) -> Unit)
+                              private val deleteCallback: (ShoppingListElementItem) -> Unit,
+                              private val swipeHelper: ViewBinderHelper)
     : AbstractItem<ShoppingListElementItem, ShoppingListElementItem.VH>() {
 
     override fun getViewHolder(v: View) = VH(v)
@@ -23,6 +25,7 @@ class ShoppingListElementItem(val element: ShoppingListElementModel,
 
     class VH(itemView: View) : FastAdapter.ViewHolder<ShoppingListElementItem>(itemView) {
 
+        private val swipeLayout = itemView.shoppingElementSwipeLayout
         private val layout = itemView.shoppingListElementLayout
         private val title = itemView.elementTitle
         private val delete = itemView.deleteShoppingElement
@@ -42,6 +45,8 @@ class ShoppingListElementItem(val element: ShoppingListElementModel,
             layout.setOnClickListener({
                 item.clickCallback.invoke(item)
             })
+
+            item.swipeHelper.bind(swipeLayout, item.element.id)
         }
 
         override fun unbindView(item: ShoppingListElementItem) {

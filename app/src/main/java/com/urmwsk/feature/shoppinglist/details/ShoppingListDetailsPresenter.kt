@@ -1,5 +1,6 @@
 package com.urmwsk.feature.shoppinglist.details
 
+import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.urmwsk.common.db.ShoppingListProvider
 import com.urmwsk.common.model.ShoppingListElementModel
 import com.urmwsk.common.model.ShoppingListModel
@@ -16,29 +17,29 @@ class ShoppingListDetailsPresenter(private val provider: ShoppingListProvider) :
         elementSelected(it.element)
     }
     var deleteElementClick: (item: ShoppingListElementItem) -> Unit = { deleteElement(it) }
+    val swipeHelper = ViewBinderHelper()
 
     override fun setData(shoppingListId: String) {
         this.shoppingListId = shoppingListId
 
-        disposable.add(provider.getShoppingElement(shoppingListId).subscribe({
-            it.map {
-                items.add(ShoppingListElementItem(it, elementClick, deleteElementClick))
-            }
-            view?.setList(items)
-        }, { Timber.d(it) }))
-
         disposable.add(provider.getListById(shoppingListId).subscribe({
             shoppingList = it
+            items.clear()
+            it.elements.map {
+                items.add(ShoppingListElementItem(it, elementClick, deleteElementClick, swipeHelper))
+            }
             view?.setTitle(it.title)
+            view?.setList(items)
+            disposable.clear()
         }, { Timber.d(it) }))
     }
 
     override fun addShoppingElement(title: String) {
-        val newShoppingElement = ShoppingListElementModel(shoppingListId = shoppingListId, title = title)
-        items.add(0, ShoppingListElementItem(newShoppingElement, elementClick, deleteElementClick))
+        val newShoppingElement = ShoppingListElementModel(title = title)
+        items.add(0, ShoppingListElementItem(newShoppingElement, elementClick, deleteElementClick, swipeHelper))
         view?.setList(items)
 
-        provider.insertShoppingElement(newShoppingElement)
+        provider.insertShoppingElement(shoppingList!!, newShoppingElement)
     }
 
     private fun elementSelected(element: ShoppingListElementModel) {
@@ -47,7 +48,7 @@ class ShoppingListDetailsPresenter(private val provider: ShoppingListProvider) :
         items = ArrayList(sortedList)
         view?.setList(items)
 
-        provider.insertShoppingElement(element)
+        provider.insertShoppingElement(shoppingList!!, element)
     }
 
     private fun deleteElement(item: ShoppingListElementItem) {

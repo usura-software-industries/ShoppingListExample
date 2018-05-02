@@ -1,7 +1,7 @@
 package com.urmwsk.common.db
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-@Entity
-class DBShoppingList(@PrimaryKey var id: String, var title: String, var addedDate: Long)
+open class DBShoppingList(@PrimaryKey var id: String = "", var title: String = "", var addedDate: Long = 0, var elements: RealmList<DBShoppingElement> = RealmList()) : RealmObject()

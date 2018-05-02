@@ -1,5 +1,6 @@
 package com.urmwsk.feature.shoppinglist.current
 
+import com.chauthai.swipereveallayout.ViewBinderHelper
 import com.urmwsk.common.db.ShoppingListProvider
 import com.urmwsk.common.model.ShoppingListModel
 import com.urmwsk.core.mvp.MvpPresenterImpl
@@ -15,19 +16,21 @@ class ShoppingListPresenter(private val provider: ShoppingListProvider) : MvpPre
         items.remove(it)
         view?.setList(items)
     }
+    val swipeHelper = ViewBinderHelper()
 
     override fun bindView(view: ShoppingListContract.View) {
         super.bindView(view)
 
         disposable.add(provider.getShoppingLists().subscribe({
-            items = ArrayList(it.map { ShoppingListItem(it, clickCallback = itemClick, deleteCallback = deleteClick)})
+            items = ArrayList(it.map { ShoppingListItem(it, clickCallback = itemClick, deleteCallback = deleteClick, swipeHelper = swipeHelper)})
             view.setList(items)
+            disposable.clear()
         }, { Timber.d(it.toString()) }))
     }
 
     override fun addNewShoppingList(title: String) {
         val newShoppingList = ShoppingListModel(title = title)
-        items.add(0, ShoppingListItem(newShoppingList, clickCallback = itemClick, deleteCallback = deleteClick))
+        items.add(0, ShoppingListItem(newShoppingList, clickCallback = itemClick, deleteCallback = deleteClick, swipeHelper = swipeHelper))
         view?.setList(items)
 
         provider.insertShoppingList(newShoppingList)
